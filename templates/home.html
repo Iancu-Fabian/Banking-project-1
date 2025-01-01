@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank System</title>
+    <link href="../static/styles_home.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Bank System</h1>
+        <p>Welcome to the Bank System management app. Choose an option to get started:</p>
+        <a href="{{ url_for('routes.view_clients') }}" class="btn">Clients</a>
+        <a href="{{ url_for('routes.view_loans') }}" class="btn">Loans</a>
+        <a href="{{ url_for('routes.view_client_loans') }}" class="btn">Client Loans</a>
+       
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!-- loans.html -->
+{% extends "template.html" %}
+
+{% block title %} Loans {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header text-center">
+            Loan List
+        </div>
+        <div class="card-body">
+            <!-- Sort by and Order Dropdowns -->
+            <form method="GET" action="{{ url_for('routes.view_loans') }}" class="mb-3">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="sort_by">Sort by</label>
+                        <select class="form-control" id="sort_by" name="sort_by" onchange="this.form.submit()">
+                            <option value="">No Sorting</option>
+                            <option value="amount" {% if selected_sort_by == 'amount' %}selected{% endif %}>Amount</option>
+                            <option value="interest_rate" {% if selected_sort_by == 'interest_rate' %}selected{% endif %}>Interest Rate</option>
+                            <option value="start_date" {% if selected_sort_by == 'start_date' %}selected{% endif %}>Start Date</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="order">Order</label>
+                        <select class="form-control" id="order" name="order" onchange="this.form.submit()">
+                            <option value="asc" {% if selected_order == 'asc' %}selected{% endif %}>Ascending</option>
+                            <option value="desc" {% if selected_order == 'desc' %}selected{% endif %}>Descending</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Add Loan Button -->
+            <div class="text-right mb-3">
+                <a href="{{ url_for('routes.add_loan') }}" class="btn btn-primary">Add Loan</a>
+            </div>
+
+            <!-- Loans Table -->
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Loan Type</th>
+                        <th>Amount</th>
+                        <th>Interest Rate (%)</th>
+                        <th>Start Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in loans %}
+                    <tr>
+                        <td>{{ loan.loan_id }}</td>
+                        <td>{{ loan.loan_type }}</td>
+                        <td>${{ loan.amount }}</td>
+                        <td>{{ loan.interest_rate }}%</td>
+                        <td>{{ loan.start_date }}</td>
+                        <td>
+                            <form action="{{ url_for('routes.delete_loan', loan_id=loan.loan_id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this loan?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
