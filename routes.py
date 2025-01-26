@@ -137,8 +137,8 @@ def delete_loan(loan_id):
     flash('Loan deleted successfully!')
     return redirect(url_for('routes.view_loans'))
 
-@routes.route('/client_loans')
-def view_client_loans():
+@routes.route('/contracts')
+def view_contracts():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
@@ -153,7 +153,7 @@ def view_client_loans():
             SELECT cl.client_id, cl.loan_id, cl.loan_date, 
                    c.first_name AS client_first_name, c.last_name AS client_last_name,
                    l.loan_type, l.amount
-            FROM client_loans cl
+            FROM contracts cl
             JOIN clients c ON cl.client_id = c.client_id
             JOIN loans l ON cl.loan_id = l.loan_id
             WHERE cl.client_id = %s
@@ -163,16 +163,16 @@ def view_client_loans():
             SELECT cl.client_id, cl.loan_id, cl.loan_date, 
                    c.first_name AS client_first_name, c.last_name AS client_last_name,
                    l.loan_type, l.amount
-            FROM client_loans cl
+            FROM contracts cl
             JOIN clients c ON cl.client_id = c.client_id
             JOIN loans l ON cl.loan_id = l.loan_id
         """)
     
-    client_loans = cursor.fetchall()
+    contracts = cursor.fetchall()
     cursor.close()
     conn.close()
     
-    return render_template('client_loans.html', client_loans=client_loans, clients=clients, selected_client_id=client_id)
+    return render_template('contracts.html', contracts=contracts, clients=clients, selected_client_id=client_id)
 
 @routes.route('/add_client_loan', methods=['GET', 'POST'])
 def add_client_loan():
@@ -190,12 +190,12 @@ def add_client_loan():
         loan_date = request.form['loan_date']
 
         cursor.execute(
-            "INSERT INTO client_loans (client_id, loan_id, loan_date) VALUES (%s, %s, %s)",
+            "INSERT INTO contracts (client_id, loan_id, loan_date) VALUES (%s, %s, %s)",
             (client_id, loan_id, loan_date)
         )
         conn.commit()
         flash('Client Loan added successfully!')
-        return redirect(url_for('routes.view_client_loans'))
+        return redirect(url_for('routes.view_contracts'))
 
     cursor.close()
     conn.close()
@@ -205,9 +205,9 @@ def add_client_loan():
 def delete_client_loan(client_id, loan_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM client_loans WHERE client_id = %s AND loan_id = %s", (client_id, loan_id))
+    cursor.execute("DELETE FROM contracts WHERE client_id = %s AND loan_id = %s", (client_id, loan_id))
     conn.commit()
     cursor.close()
     conn.close()
     flash('Client Loan relationship deleted successfully!')
-    return redirect(url_for('routes.view_client_loans'))
+    return redirect(url_for('routes.view_contracts'))

@@ -21,7 +21,7 @@ CREATE TABLE loans (
 );
 
 -- Create Intermediary Table for M:N Relationship
-CREATE TABLE client_loans (
+CREATE TABLE contracts (
     client_id INT,
     loan_id INT,
     loan_date DATE NOT NULL,
@@ -47,8 +47,8 @@ INSERT INTO loans (loan_type, amount, interest_rate, start_date) VALUES
     ('Student Loan', 20000.00, 4.00, '2023-05-25'),
     ('Home Equity Loan', 75000.00, 5.00, '2023-06-15');
 
--- Insert sample data into Client_Loans table to establish relationships
-INSERT INTO client_loans (client_id, loan_id, loan_date) VALUES
+-- Insert sample data into contracts table to establish relationships
+INSERT INTO contracts (client_id, loan_id, loan_date) VALUES
     (1, 1, '2023-01-16'),
     (1, 2, '2023-02-21'),
     (2, 3, '2023-03-11'),

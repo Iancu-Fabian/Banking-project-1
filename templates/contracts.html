@@ -1,4 +1,4 @@
-<!-- client_loans.html -->
+<!-- contracts.html -->
 {% extends "template.html" %}
 
 {% block title %} Client Loans {% endblock %}
@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <!-- Filter Dropdown -->
-            <form method="GET" action="{{ url_for('routes.view_client_loans') }}" class="mb-3">
+            <form method="GET" action="{{ url_for('routes.view_contracts') }}" class="mb-3">
                 <div class="form-group row">
                     <label for="client_id" class="col-sm-2 col-form-label">Select Client</label>
                     <div class="col-sm-8">
@@ -44,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for client_loan in client_loans %}
+                    {% for client_loan in contracts %}
                     <tr>
                         <td>{{ client_loan.client_first_name }} {{ client_loan.client_last_name }}</td>
                         <td>{{ client_loan.loan_type }}</td>
